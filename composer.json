@@ -1,6 +1,7 @@
 {
     "name": "emil/inliner",
     "description": "",
+    "license": "MIT",
     "authors": [
         {
             "name": "Emil Sundberg",

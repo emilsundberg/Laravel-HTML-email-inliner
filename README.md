@@ -9,7 +9,7 @@ This is just a Laravel wrapper for PHP-premailer (https://github.com/onassar/PHP
 Begin by installing this package through Composer. Edit your project's composer.json file to require emil/inliner
 
 	"require-dev": {
-        "emil/inliner": "1.*"
+        "emil/inliner": "dev-master"
     }
 
 Then run `composer update`
