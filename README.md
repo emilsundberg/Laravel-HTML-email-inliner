@@ -27,5 +27,5 @@ $view = View::make('hello');
 $inliner = new Inliner($view);
 $body = $inliner->getConvertedHtml();
 
-echo $html;
+echo $body;
 ```
