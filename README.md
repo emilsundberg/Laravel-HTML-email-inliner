@@ -14,7 +14,7 @@ Begin by installing this package through Composer. Edit your project's composer.
 
 Add Inliner as a service provider in app.php
 
-	'providers' => [
+	"providers" => [
 		'Emil\Inliner\InlinerServiceProvider',
 	]
 
@@ -23,14 +23,29 @@ Then run `composer update`
 
 ## Quick Example
 
-``` php
-Inliner::view('emails.templates.newsletter');
-Inliner::argument('include_style_tags', true);
-Inliner::argument('preserve_styles', true);
-echo Inliner::getConvertedHtml();
+#### Disable/enable the inliner
+*The inliner is enabled by default*
+
+```php
+Inliner::disable();
+Inliner::enable();
 ```
 
-## Arguments
+#### Check if the inliner is enabled/disabled
+```php
+Inliner::isDisabled();
+Inliner::isEnabled();
+```
+
+#### Change an option
+```php
+Inliner::setOption('name', value);
+```
+
+*Sending in an option that does not exist will throw*
+`InvalidArgumentException`
+
+##### Options
 
 * `css_to_attributes`
 * `include_link_tags`
