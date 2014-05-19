@@ -19,6 +19,8 @@ class InlinerServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('emil/inliner');
+
+        $this->app['mailer']->getSwiftMailer()->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
 	}
 
 	/**
@@ -29,7 +31,8 @@ class InlinerServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->app['emil.inliner'] = $this->app->share(function($app){
-			return new Inliner(null);
+            $options = $this->app['config']->get('inliner::options');
+			return new Inliner($options);
 		});
 
 		$this->app->booting(function() {
