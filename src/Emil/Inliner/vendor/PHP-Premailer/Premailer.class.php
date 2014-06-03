@@ -23,6 +23,9 @@
      */
     class Premailer
     {
+        private $cacheDir;
+        private $fileName;
+
         /**
          * _arguments
          * 
@@ -81,7 +84,7 @@
         public function __construct($markup)
         {
             $this->_markup = $markup;
-            $this->_arguments['with_html_string'] = true;
+            $this->_arguments['with_html_string'] = false;
         }
 
         /**
@@ -95,8 +98,12 @@
         {
             // Set up the argument string, and escape the markup
             $str = '';
-            $escapedMarkup = str_replace('"', '\"', $this->_markup);
-            $str .= '--markup "' . ($escapedMarkup) . '"';
+
+            $this->cacheDir = storage_path().'/cache/';
+            $this->fileName = uniqid('inliner_') . '.tmp';
+            file_put_contents($this->cacheDir . $this->fileName, $this->_markup, LOCK_EX);
+
+            $str .= '--markup "' . $this->cacheDir . $this->fileName . '"';
 
             // Loop over arguments; if boolean and true, set
             foreach ($this->_arguments as $name => $value) {
@@ -140,6 +147,7 @@
             $returnVar = 0;
             $command = ($scriptPath) . ' ' . $this->_getArgumentString();
             $response = exec($command, $output, $returnVar);
+            unlink($this->cacheDir . $this->fileName);
             if ($returnVar === 1) {
                 throw new Exception('Premailer or getopt gems not installed');
             }
