@@ -1,12 +1,5 @@
 <?php
 
-    // Ensure ruby script is executable
-    if (!is_executable(dirname(__FILE__) . '/converter.rb')) {
-        throw new Exception(
-            'converter.rb must be executable (eg. sudo chmod 0755 converter.rb)'
-        );
-    }
-
     /**
      * Premailer
      * 
