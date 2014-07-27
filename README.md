@@ -1,5 +1,5 @@
-Laravel package for PHP-Premailer
-=================================
+Laravel HTML Email Inliner
+==========================
 To make HTML email work, you need to put all CSS rules inline to make sure it works everywhere. It's a pain when developing your code and that's why you want a package to do it on the fly.
 
 This is just a Laravel wrapper for PHP-premailer (https://github.com/onassar/PHP-Premailer)
@@ -8,7 +8,7 @@ This is just a Laravel wrapper for PHP-premailer (https://github.com/onassar/PHP
 
 Begin by installing this package through Composer. Edit your project's composer.json file to require emil/inliner
 
-	"require-dev": {
+	"require": {
         "emil/inliner": "dev-master"
     }
 
