@@ -6,6 +6,17 @@ This is just a Laravel wrapper for PHP-premailer (https://github.com/onassar/PHP
 
 ## Installation
 
+### Ruby gems 
+
+This package require two Ruby Gems: Premailer and Getopt. 
+
+	$ sudo gem install premailer
+	$ sudo gem install getopt
+	
+Check this Gists for more info on dependencies on Ubuntu (Laravel Homestead): https://gist.github.com/emilsundberg/8ae10ca886058c683d13
+
+### Laravel
+
 Begin by installing this package through Composer. Edit your project's composer.json file to require emil/inliner
 
 	"require": {
