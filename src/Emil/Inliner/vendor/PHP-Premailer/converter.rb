@@ -33,7 +33,8 @@ begin
       :remove_ids => opt['remove_ids'],
       :remove_scripts => opt['remove_scripts'],
       :replace_html_entities => opt['replace_html_entities'],
-      :with_html_string => opt['with_html_string']
+      :with_html_string => opt['with_html_string'],
+      :adapter => :nokogiri
   )
   puts premailer.to_inline_css
 rescue Gem::LoadError
