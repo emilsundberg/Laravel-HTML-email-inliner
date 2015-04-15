@@ -1,6 +1,7 @@
 <?php namespace Emil\Inliner;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 class InlinerServiceProvider extends ServiceProvider {
 
@@ -11,16 +12,11 @@ class InlinerServiceProvider extends ServiceProvider {
 	 */
 	protected $defer = false;
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
 	public function boot()
 	{
-		$this->package('emil/inliner');
-
-        $this->app['mailer']->getSwiftMailer()->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
+		$this->app['mailer']
+			->getSwiftMailer()
+			->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
 	}
 
 	/**
@@ -30,26 +26,20 @@ class InlinerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->mergeConfigFrom(
+            base_path('vendor/emil/inliner/src/config/config.php'), 'inliner'
+        );
+
 		$this->app['emil.inliner'] = $this->app->share(function($app){
-            $options = $this->app['config']->get('inliner::options');
-			return new Inliner($options);
+            $inliner = $this->app['config']->get('inliner');
+            // print_r($options);die;
+			return new Inliner($inliner['options']);
 		});
 
 		$this->app->booting(function() {
-
-			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader = AliasLoader::getInstance();
 			$loader->alias('Inliner', 'Emil\Inliner\Facades\Inliner');
 		});
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array();
 	}
 
 }

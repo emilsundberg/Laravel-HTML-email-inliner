@@ -9,7 +9,7 @@ class Inliner {
 
     public function __construct($options)
     {
-        $this->options= $options;
+        $this->options = $options;
     }
 
     protected $enabled = true;
