@@ -2,14 +2,7 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Premailer options
-    |--------------------------------------------------------------------------
-    |
-    |
-    |
-    */
+	'cache_path' => storage_path().'/framework/cache/',
 
     'options' => [
         'css_to_attributes'     => true,
@@ -24,4 +17,5 @@ return [
         'remove_scripts'        => true,
         'replace_html_entities' => false,
     ],
+
 ];

@@ -1,15 +1,17 @@
 <?php namespace Emil\Inliner;
 
-require_once('vendor/PHP-Premailer/Premailer.class.php');
-use Premailer;
+use Emil\Inliner\Vendor\Premailer\Premailer as Premailer;
 
 class Inliner {
 
     protected $options;
 
-    public function __construct($options)
+    protected $cache_path;
+
+    public function __construct($options, $cache_path)
     {
         $this->options = $options;
+        $this->cache_path = $cache_path;
     }
 
     protected $enabled = true;
@@ -31,7 +33,7 @@ class Inliner {
      */
     public function isDisabled()
     {
-        return !$this->enabled;
+        return ! $this->enabled;
     }
 
     /**
@@ -59,7 +61,7 @@ class Inliner {
      */
     public function setOption($name, $value)
     {
-        if(array_key_exists($name, $this->options))
+        if (array_key_exists($name, $this->options))
         {
             $this->options[$name] = $value;
         }
@@ -77,13 +79,14 @@ class Inliner {
      */
     public function inline($content)
     {
-        $premailer = new Premailer($content);
+        $premailer = new Premailer($content, $this->cache_path);
 
-        foreach($this->options as $name => $value)
+        foreach ($this->options as $name => $value)
         {
             $premailer->setArgument($name, $value);
         }
 
         return $premailer->getConvertedHtml();
     }
+
 }

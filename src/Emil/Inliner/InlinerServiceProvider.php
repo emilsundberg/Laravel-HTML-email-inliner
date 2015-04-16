@@ -14,9 +14,18 @@ class InlinerServiceProvider extends ServiceProvider {
 
 	public function boot()
 	{
+		$configFile = __DIR__ . '/../../config/config.php';
+
+		$this->mergeConfigFrom($configFile, 'inliner');
+
+		$this->publishes([
+			$configFile => config_path('inliner.php')
+		]);
+
 		$this->app['mailer']
 			->getSwiftMailer()
 			->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
+
 	}
 
 	/**
@@ -26,19 +35,11 @@ class InlinerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->mergeConfigFrom(
-            base_path('vendor/emil/inliner/src/config/config.php'), 'inliner'
-        );
-
-		$this->app['emil.inliner'] = $this->app->share(function($app){
+		$this->app['emil.inliner'] = $this->app->share(function ($app)
+		{
             $inliner = $this->app['config']->get('inliner');
-            // print_r($options);die;
-			return new Inliner($inliner['options']);
-		});
 
-		$this->app->booting(function() {
-			$loader = AliasLoader::getInstance();
-			$loader->alias('Inliner', 'Emil\Inliner\Facades\Inliner');
+			return new Inliner($inliner['options'], $inliner['cache_path']);
 		});
 	}
 

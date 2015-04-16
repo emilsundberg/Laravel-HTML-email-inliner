@@ -14,11 +14,12 @@ class CssInlinerPlugin implements \Swift_Events_SendListener
      */
     public function beforeSendPerformed(\Swift_Events_SendEvent $evt)
     {
-        if($this->inliner->isDisabled()) return;
+        if ($this->inliner->isDisabled()) return;
 
         $message = $evt->getMessage();
 
-        if ($message->getContentType() === 'text/html' || ($message->getContentType() === 'multipart/alternative' && $message->getBody()))
+        if ($message->getContentType() === 'text/html' ||
+        	($message->getContentType() === 'multipart/alternative' && $message->getBody()))
         {
             $message->setBody($this->inliner->inline($message->getBody()));
         }
@@ -41,4 +42,5 @@ class CssInlinerPlugin implements \Swift_Events_SendListener
     {
         // Do Nothing
     }
+
 }

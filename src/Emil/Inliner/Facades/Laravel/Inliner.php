@@ -1,4 +1,4 @@
-<?php namespace Emil\Inliner\Facades;
+<?php namespace Emil\Inliner\Facades\Laravel;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -9,6 +9,9 @@ Class Inliner extends Facade {
 	 *
 	 * @return string
 	 */
-	protected static function getFacadeAccessor() { return 'emil.inliner'; }
+	protected static function getFacadeAccessor()
+	{
+		return 'emil.inliner';
+	}
 
 }
