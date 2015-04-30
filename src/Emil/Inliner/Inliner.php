@@ -1,9 +1,11 @@
-<?php namespace Emil\Inliner;
+<?php
+
+namespace Emil\Inliner;
 
 use Emil\Inliner\Vendor\Premailer\Premailer as Premailer;
 
-class Inliner {
-
+class Inliner
+{
     protected $options;
 
     protected $cache_path;
@@ -17,7 +19,7 @@ class Inliner {
     protected $enabled = true;
 
     /**
-     * Is the inliner enabled
+     * Is the inliner enabled.
      *
      * @return bool
      */
@@ -33,11 +35,11 @@ class Inliner {
      */
     public function isDisabled()
     {
-        return ! $this->enabled;
+        return !$this->enabled;
     }
 
     /**
-     * Disable the inliner
+     * Disable the inliner.
      */
     public function disable()
     {
@@ -45,7 +47,7 @@ class Inliner {
     }
 
     /**
-     * Enable the inliner
+     * Enable the inliner.
      */
     public function enable()
     {
@@ -53,40 +55,37 @@ class Inliner {
     }
 
     /**
-     * Set a inline option
+     * Set a inline option.
      *
      * @param $name
      * @param $value
+     *
      * @throws \InvalidArgumentException
      */
     public function setOption($name, $value)
     {
-        if (array_key_exists($name, $this->options))
-        {
+        if (array_key_exists($name, $this->options)) {
             $this->options[$name] = $value;
-        }
-        else
-        {
-            throw new \InvalidArgumentException('The option "' . $name . '" does not exist');
+        } else {
+            throw new \InvalidArgumentException('The option "'.$name.'" does not exist');
         }
     }
 
     /**
-     * Inline the content
+     * Inline the content.
      *
      * @param $content
+     *
      * @return string
      */
     public function inline($content)
     {
         $premailer = new Premailer($content, $this->cache_path);
 
-        foreach ($this->options as $name => $value)
-        {
+        foreach ($this->options as $name => $value) {
             $premailer->setArgument($name, $value);
         }
 
         return $premailer->getConvertedHtml();
     }
-
 }

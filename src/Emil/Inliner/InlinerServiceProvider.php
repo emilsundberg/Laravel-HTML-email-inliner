@@ -1,46 +1,42 @@
-<?php namespace Emil\Inliner;
+<?php
+
+namespace Emil\Inliner;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
-class InlinerServiceProvider extends ServiceProvider {
+class InlinerServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    public function boot()
+    {
+        $configFile = __DIR__.'/../../config/config.php';
 
-	public function boot()
-	{
-		$configFile = __DIR__ . '/../../config/config.php';
+        $this->mergeConfigFrom($configFile, 'inliner');
 
-		$this->mergeConfigFrom($configFile, 'inliner');
+        $this->publishes([
+            $configFile => config_path('inliner.php'),
+        ]);
 
-		$this->publishes([
-			$configFile => config_path('inliner.php')
-		]);
+        $this->app['mailer']
+            ->getSwiftMailer()
+            ->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
+    }
 
-		$this->app['mailer']
-			->getSwiftMailer()
-			->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
-
-	}
-
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app['emil.inliner'] = $this->app->share(function ($app)
-		{
+    /**
+     * Register the service provider.
+     */
+    public function register()
+    {
+        $this->app['emil.inliner'] = $this->app->share(function ($app) {
             $inliner = $this->app['config']->get('inliner');
 
-			return new Inliner($inliner['options'], $inliner['cache_path']);
-		});
-	}
-
+            return new Inliner($inliner['options'], $inliner['cache_path']);
+        });
+    }
 }
