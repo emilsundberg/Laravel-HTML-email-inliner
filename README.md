@@ -33,7 +33,7 @@ Add Inliner as a service provider in app.php
 Add Inliner alias
 
 	"aliases" => [
-		'Inliner' => 'Emil\Inliner\Facades\Inliner',
+		'Inliner' => 'Emil\Inliner\Facades\Laravel\Inliner',
 	]
 
 ## Laravel 4.2
