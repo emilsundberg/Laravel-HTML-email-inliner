@@ -1,18 +1,19 @@
 Laravel HTML Email Inliner
 ==========================
+
 To make HTML email work, you need to put all CSS rules inline to make sure it works everywhere. It's a pain when developing your code and that's why you want a package to do it on the fly.
 
 This is just a Laravel wrapper for PHP-premailer (https://github.com/onassar/PHP-Premailer)
 
 ## Installation
 
-### Ruby gems 
+### Ruby gems
 
-This package require two Ruby Gems: Premailer and Getopt. 
+This package require two Ruby Gems: Premailer and Getopt.
 
 	$ sudo gem install premailer
 	$ sudo gem install getopt
-	
+
 Check this Gists for more info on dependencies on Ubuntu (Laravel Homestead): https://gist.github.com/emilsundberg/8ae10ca886058c683d13
 
 ### Laravel
@@ -28,6 +29,20 @@ Add Inliner as a service provider in app.php
 	"providers" => [
 		'Emil\Inliner\InlinerServiceProvider',
 	]
+
+Add Inliner alias
+
+	"aliases" => [
+		'Inliner' => 'Emil\Inliner\Facades\Inliner',
+	]
+
+## Laravel 4.2
+
+To make the library backwards compatible, publish the config.php file to your app using the following command
+
+	`php artisan vendor:publish`
+
+Then open the published config file and change the cache_path value to `storage_path().'/cache/'`.
 
 Then run `composer update`
 

@@ -1,55 +1,42 @@
-<?php namespace Emil\Inliner;
+<?php
+
+namespace Emil\Inliner;
 
 use Illuminate\Support\ServiceProvider;
 
-class InlinerServiceProvider extends ServiceProvider {
+class InlinerServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    public function boot()
+    {
+        $configFile = __DIR__.'/../../config/config.php';
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		$this->package('emil/inliner');
+        $this->mergeConfigFrom($configFile, 'inliner');
 
-        $this->app['mailer']->getSwiftMailer()->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
-	}
+        $this->publishes([
+            $configFile => config_path('inliner.php'),
+        ]);
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app['emil.inliner'] = $this->app->share(function($app){
-            $options = $this->app['config']->get('inliner::options');
-			return new Inliner($options);
-		});
+        $this->app['mailer']
+            ->getSwiftMailer()
+            ->registerPlugin(new CssInlinerPlugin($this->app['emil.inliner']));
+    }
 
-		$this->app->booting(function() {
+    /**
+     * Register the service provider.
+     */
+    public function register()
+    {
+        $this->app['emil.inliner'] = $this->app->share(function ($app) {
+            $inliner = $this->app['config']->get('inliner');
 
-			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('Inliner', 'Emil\Inliner\Facades\Inliner');
-		});
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array();
-	}
-
+            return new Inliner($inliner['options'], $inliner['cache_path']);
+        });
+    }
 }
