@@ -36,13 +36,7 @@ Add Inliner alias
 
 ## Laravel 4.2
 
-To make the library backwards compatible, publish the config.php file to your app using the following command
-
-	`php artisan vendor:publish`
-
-Then open the published config file and change the cache_path value to `storage_path().'/cache/'`.
-
-Then run `composer update`
+Use the `1.x` releases/branch
 
 
 ## Quick Example
