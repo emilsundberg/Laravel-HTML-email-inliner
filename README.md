@@ -18,22 +18,20 @@ Check this Gists for more info on dependencies on Ubuntu (Laravel Homestead): ht
 
 ### Laravel
 
-Begin by installing this package through Composer. Edit your project's composer.json file to require emil/inliner
+Begin by installing this package through Composer.
 
-	"require": {
-        "emil/inliner": "dev-master"
-    }
+	$ composer require snowfire/beautymail
 
 Add Inliner as a service provider in app.php
 
-	"providers" => [
-		'Emil\Inliner\InlinerServiceProvider',
+	'providers' => [
+		Emil\Inliner\InlinerServiceProvider::class,
 	]
 
 Add Inliner alias
 
-	"aliases" => [
-		'Inliner' => 'Emil\Inliner\Facades\Laravel\Inliner',
+	'aliases' => [
+		Emil\Inliner\Facades\Laravel\Inliner::class
 	]
 
 ## Laravel 4.2
